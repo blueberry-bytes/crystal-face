@@ -2,3 +2,5 @@
 build/
 
 bin/
+/developer_key
+/.vs
