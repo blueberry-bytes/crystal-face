@@ -85,7 +85,7 @@ class ThickThinTime extends Ui.Drawable {
 		// Centre combined hours and minutes text (not the same as right-aligning hours and left-aligning minutes).
 		// Font has tabular figures (monospaced numbers) even across different weights, so does not matter which of hours or
 		// minutes font is used to calculate total width. 
-		var totalWidth = dc.getTextWidthInPixels(hours + minutes, mHoursFont);
+		var totalWidth = dc.getTextWidthInPixels(hours + minutes, mHoursFont) + dc.getTextWidthInPixels(":", mMinutesFont);
 		var x = halfDCWidth - (totalWidth / 2);
 
 		// Draw hours.
@@ -98,6 +98,15 @@ class ThickThinTime extends Ui.Drawable {
 			Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
 		);
 		x += dc.getTextWidthInPixels(hours, mHoursFont);
+
+		dc.drawText(
+			x,
+			halfDCHeight,
+			mMinutesFont,
+			":",
+			Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
+		);
+		x += dc.getTextWidthInPixels(":", mMinutesFont);
 
 		// Draw minutes.
 		dc.setColor(gMinutesColour, Graphics.COLOR_TRANSPARENT);

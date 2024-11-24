@@ -18,19 +18,26 @@ enum /* FIELD_TYPES */ {
 
 	// Real fields (used by properties).
 	FIELD_TYPE_HEART_RATE = 0,
-	FIELD_TYPE_BATTERY,
-	FIELD_TYPE_NOTIFICATIONS,
-	FIELD_TYPE_CALORIES,
-	FIELD_TYPE_DISTANCE,
-	FIELD_TYPE_ALARMS,
-	FIELD_TYPE_ALTITUDE,
-	FIELD_TYPE_TEMPERATURE,
-	FIELD_TYPE_BATTERY_HIDE_PERCENT,
-	FIELD_TYPE_HR_LIVE_5S,
-	FIELD_TYPE_SUNRISE_SUNSET,
-	FIELD_TYPE_WEATHER,
-	FIELD_TYPE_PRESSURE,
-	FIELD_TYPE_HUMIDITY
+	FIELD_TYPE_BATTERY, // 1
+	FIELD_TYPE_NOTIFICATIONS, // 2
+	FIELD_TYPE_CALORIES, // 3
+	FIELD_TYPE_DISTANCE, // 4
+	FIELD_TYPE_ALARMS, // 5
+	FIELD_TYPE_ALTITUDE, // 6
+	FIELD_TYPE_TEMPERATURE, // 7
+	FIELD_TYPE_BATTERY_HIDE_PERCENT, // 8
+	FIELD_TYPE_HR_LIVE_5S, // 9
+	FIELD_TYPE_SUNRISE_SUNSET, // 10
+	FIELD_TYPE_WEATHER, // 11
+	FIELD_TYPE_PRESSURE, // 12
+	FIELD_TYPE_HUMIDITY, // 13
+	FIELD_TYPE_PULSE_OX, // 14
+	FIELD_FLOOR_CLIMBED, // 15
+	FIELD_SOLAR_INTENSITY,  // 16
+	FIELD_BODY_BATTERY, // 17
+	FIELD_RECOVERY_TIME, // 18
+	FIELD_STRESS_LEVEL, // 19
+	FIELD_TYPE_ACTIVE_CALORIES, // 20
 }
 
 typedef FieldTypeValue as {
@@ -330,6 +337,7 @@ class DataFields extends Ui.Drawable {
 					FIELD_TYPE_SUNRISE_SUNSET => "?",
 					FIELD_TYPE_PRESSURE => "@",
 					FIELD_TYPE_HUMIDITY => "A",
+					FIELD_FLOOR_CLIMBED => "1",
 				}[fieldType];
 			}
 
@@ -380,6 +388,7 @@ class DataFields extends Ui.Drawable {
 		var weatherValue;
 		var sunTimes;
 		var unit;
+		var info;
 
 		switch (type) {
 			case FIELD_TYPE_HEART_RATE:
@@ -394,6 +403,16 @@ class DataFields extends Ui.Drawable {
 						.next();
 					if ((sample != null) && (sample.heartRate != ActivityMonitor.INVALID_HR_SAMPLE)) {
 						value = sample.heartRate.format(INTEGER_FORMAT);
+					}
+				}
+				break;
+
+			case FIELD_FLOOR_CLIMBED:
+ 				info = ActivityMonitor.getInfo();
+				if (info has :floorsClimbed) {
+					var climbed = info.floorsClimbed;
+					if (climbed != null) {
+						value = climbed.format(INTEGER_FORMAT);
 					}
 				}
 				break;
